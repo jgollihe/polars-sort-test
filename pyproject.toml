@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "polars-sort-test"
+version = "0.1.0"
+description = "Compare custom out-of-core Parquet sorting against Polars 2.0 OOC sort"
+requires-python = ">=3.11"
+dependencies = [
+    "ipykernel>=7.4.0",
+    "polars==2.0.0",
+    "pytest>=9.1.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/utils"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

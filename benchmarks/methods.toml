@@ -1,0 +1,29 @@
+# Methods compared by benchmarks/benchmark.py, one [[method]] table each.
+#
+#   name     Unique label used in the results CSV, logs and --only filters.
+#   kind     "polars" (LazyFrame.sort) or "custom" (utils.external_sort.sort_parquet).
+#   env      Environment variables for the trial process, layered on a copy of
+#            the launching shell's environment with any POLARS_OOC_* removed.
+#   options  Keyword arguments passed to LazyFrame.sort or sort_parquet.
+#            sort_parquet is a stable sort, so set maintain_order = true on
+#            Polars methods for a like-for-like comparison.
+
+[[method]]
+name = "polars_ooc_disk100000_level0"
+kind = "polars"
+env = { POLARS_OOC_DISK_BUDGET_MB = 100000, POLARS_OOC_SPILL_COMPRESSION_LEVEL = 0 }
+
+[[method]]
+name = "polars_ooc_disk100000_level1"
+kind = "polars"
+env = { POLARS_OOC_DISK_BUDGET_MB = 100000, POLARS_OOC_SPILL_COMPRESSION_LEVEL = 1 }
+
+[[method]]
+name = "polars_ooc_disk100000_level3"
+kind = "polars"
+env = { POLARS_OOC_DISK_BUDGET_MB = 100000, POLARS_OOC_SPILL_COMPRESSION_LEVEL = 3 }
+
+[[method]]
+name = "custom_bucket20M"
+kind = "custom"
+options = { bucket_rows = 20_000_000 }
